@@ -14,21 +14,21 @@
         <h2>Search by:</h2>
 
         <p>
-            <span th:each="column : ${columns}">
-                <input
-                        type="radio"
-                        name="searchType"
-                        th:id="${column.key}"
-                        th:value="${column.key}"
-                        th:checked="${column.key == 'all'}"/>
-                <label th:for="${column.key}" th:text="${column.value}"></label>
-            </span>
+                    <span th:each="column : ${columns}">
+                        <input
+                                type="radio"
+                                name="searchType"
+                                th:id="${column.key}"
+                                th:value="${column.key}"
+                                th:checked="${column.key == 'all'}"/>
+                        <label th:for="${column.key}" th:text="${column.value}"></label>
+                    </span>
 
         </p>
 
         <p>
             <label for="searchTerm">Keyword:</label>
-            <input type="text" name="searchTerm" id="searchTerm" />
+            <input type="text" name="searchTerm" id="searchTerm" th:value="${searchTerm}"/>
         </p>
 
         <input type="submit" value="Search" />
@@ -37,8 +37,24 @@
     <hr />
 
     <!-- TODO #2 - Loop over jobs map to display all job fields -->
+    <div th:if="${jobs} and ${jobs.size()}">
+
+        <table class="job-listing">
+            <tr th:each="job, idx : ${jobs}" th:class="${idx.odd} ? 'odd'">
+                <td>
+                    <a th:href="@{/list/jobs(column=${column},value=${job})}" th:text="${job['core competency']}" class="btn btn-primary col-sm-3" style='margin-right:2px;'></a>
+                    <button th:text="${job['employer']}" class="btn btn-default disabled col-sm-auto btn-xs" style='margin-right:2px;'></button>
+                    <button th:text="${job['name']}" class="btn btn-default disabled col-sm-auto btn-xs" style='margin-right:2px;'></button>
+                    <button th:text="${job['position type']}" class="btn btn-default disabled col-sm-auto btn-xs" style='margin-right:2px;'></button>
+                    <button th:text="${job['location']}" class="btn btn-default disabled col-sm-auto btn-xs" style='margin-right:2px;'></button>
+                </td>
+            </tr>
+        </table>
+
+    </div>
 
 </div>
 
 </body>
 </html>
+
